@@ -1,0 +1,25 @@
+[
+  {
+    "section": "Getting started",
+    "topics": [
+      { "title": "Installation and setup", "file": "setup.md" },
+      { "title": "Configuration", "file": "config.md" }
+    ]
+  },
+  {
+    "section": "Writing tests",
+    "topics": [
+      { "title": "Locators", "file": "locators.md" },
+      { "title": "Assertions", "file": "assertions.md" },
+      { "title": "Fixtures", "file": "fixtures.md" },
+      { "title": "Page Object Model", "file": "page-object-model.md" }
+    ]
+  },
+  {
+    "section": "Running and debugging",
+    "topics": [
+      { "title": "Debugging", "file": "debugging.md" },
+      { "title": "Running in Jenkins", "file": "jenkins.md" }
+    ]
+  }
+]

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playwright notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+<style>
+  :root {
+    --bg: #FAFBFC;
+    --panel: #EEF2F5;
+    --ink: #1C2733;
+    --muted: #5B6B7A;
+    --line: #D8DFE6;
+    --accent: #2E6F57;
+    --accent-soft: #DCEEE5;
+    --code-bg: #F2F4F7;
+    --sans: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15191E;
+      --panel: #1B2027;
+      --ink: #E3E8EE;
+      --muted: #93A1AF;
+      --line: #2A323C;
+      --accent: #6FC2A0;
+      --accent-soft: #1F3A30;
+      --code-bg: #0F1318;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font: 17px/1.6 var(--sans);
+    display: grid;
+    grid-template-columns: 280px 1fr;
+  }
+
+  /* Sidebar */
+  aside {
+    background: var(--panel);
+    border-right: 1px solid var(--line);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    padding: 28px 20px 40px;
+  }
+  .brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    margin: 0 0 18px;
+  }
+  .brand small {
+    display: block;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .search {
+    width: 100%;
+    font: inherit;
+    font-size: 0.95rem;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+  .section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--muted);
+    margin: 20px 0 6px 10px;
+  }
+  nav ul { list-style: none; margin: 0; padding: 0; }
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.97rem;
+  }
+  nav a::before {
+    content: "";
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    border: 1.5px solid var(--muted);
+    flex: none;
+  }
+  nav a:hover { background: var(--bg); }
+  nav a[aria-current="page"] {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 700;
+  }
+  nav a[aria-current="page"]::before {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .empty-filter { color: var(--muted); font-size: 0.9rem; padding: 0 10px; }
+
+  /* Main */
+  main {
+    padding: 48px 56px 80px;
+    min-width: 0;
+  }
+  article { max-width: 72ch; }
+  article h1 {
+    font-size: 2.3rem;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+  }
+  article h2 {
+    font-size: 1.35rem;
+    margin: 40px 0 10px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  article h3 { font-size: 1.1rem; margin: 28px 0 8px; }
+  article a { color: var(--accent); }
+  article code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  article pre {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  article pre code { background: none; padding: 0; font-size: inherit; }
+  pre code.hljs { background: none; padding: 0; }
+  article blockquote {
+    margin: 16px 0;
+    padding: 4px 16px;
+    border-left: 3px solid var(--accent);
+    color: var(--muted);
+  }
+  article table { border-collapse: collapse; display: block; overflow-x: auto; }
+  article th, article td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; }
+  article img { max-width: 100%; }
+
+  .pager {
+    max-width: 72ch;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .pager a {
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+  }
+  .pager a span { font-weight: 400; font-size: 0.85rem; color: var(--muted); }
+  .pager a.next { text-align: right; margin-left: auto; }
+  .pager a:hover { color: var(--accent); }
+
+  .notice {
+    max-width: 64ch;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px 24px;
+    background: var(--panel);
+  }
+  .notice h1 { font-size: 1.4rem; margin-top: 0; }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .menu-btn { display: none; }
+
+  @media (max-width: 800px) {
+    body { grid-template-columns: 1fr; }
+    aside {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: 280px;
+      z-index: 10;
+      transform: translateX(-100%);
+      transition: transform 0.2s ease;
+    }
+    body.menu-open aside { transform: none; box-shadow: 0 0 0 100vw rgba(0,0,0,0.35); }
+    main { padding: 72px 20px 60px; }
+    .menu-btn {
+      display: block;
+      position: fixed;
+      top: 14px; left: 14px;
+      z-index: 5;
+      font: inherit;
+      font-size: 0.95rem;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--ink);
+    }
+    article h1 { font-size: 1.8rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { aside { transition: none; } }
+</style>
+</head>
+<body>
+  <button class="menu-btn" type="button" aria-controls="sidebar">Topics</button>
+
+  <aside id="sidebar">
+    <p class="brand">Playwright notes<small>My learning notebook</small></p>
+    <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
+    <nav aria-label="Topics"></nav>
+  </aside>
+
+  <main>
+    <article id="content" aria-live="polite"></article>
+    <div class="pager"></div>
+  </main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+  const nav = document.querySelector('nav');
+  const content = document.getElementById('content');
+  const pager = document.querySelector('.pager');
+  const search = document.querySelector('.search');
+  let sections = [];
+  let flat = [];
+
+  const slug = file => file.replace(/\.md$/, '');
+
+  function showNotice(title, html) {
+    content.innerHTML = `<div class="notice"><h1>${title}</h1>${html}</div>`;
+    pager.innerHTML = '';
+  }
+
+  function renderNav(filter = '') {
+    const q = filter.trim().toLowerCase();
+    let html = '';
+    for (const s of sections) {
+      const items = s.topics.filter(t => !q || t.title.toLowerCase().includes(q));
+      if (!items.length) continue;
+      html += `<p class="section-title">${s.section}</p><ul>`;
+      for (const t of items) {
+        html += `<li><a href="#${slug(t.file)}" data-file="${t.file}">${t.title}</a></li>`;
+      }
+      html += '</ul>';
+    }
+    nav.innerHTML = html || '<p class="empty-filter">No topic matches that filter.</p>';
+    markActive();
+  }
+
+  function markActive() {
+    const current = location.hash.slice(1);
+    nav.querySelectorAll('a').forEach(a => {
+      if (slug(a.dataset.file) === current) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
+  }
+
+  async function loadTopic() {
+    const id = location.hash.slice(1) || slug(flat[0].file);
+    const index = flat.findIndex(t => slug(t.file) === id);
+    if (index === -1) {
+      showNotice('Topic not found', `<p>There's no topic called <code>${id}</code> in <code>topics.json</code>. Pick one from the list.</p>`);
+      return;
+    }
+    const topic = flat[index];
+    markActive();
+    document.body.classList.remove('menu-open');
+
+    try {
+      const res = await fetch(`notes/${topic.file}`, { cache: 'no-store' });
+      if (!res.ok) throw new Error(res.status);
+      const md = await res.text();
+      content.innerHTML = marked.parse(md);
+      content.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+      document.title = `${topic.title} – Playwright notes`;
+    } catch {
+      showNotice('Notes file missing', `<p>Couldn't load <code>notes/${topic.file}</code>. Create that file, or fix the file name in <code>topics.json</code>.</p>`);
+      return;
+    }
+
+    const prev = flat[index - 1];
+    const next = flat[index + 1];
+    pager.innerHTML =
+      (prev ? `<a class="prev" href="#${slug(prev.file)}"><span>Previous</span>${prev.title}</a>` : '') +
+      (next ? `<a class="next" href="#${slug(next.file)}"><span>Next</span>${next.title}</a>` : '');
+    window.scrollTo(0, 0);
+  }
+
+  async function init() {
+    if (location.protocol === 'file:') {
+      showNotice('Start the local server first',
+        `<p>Browsers block reading your notes files when this page is opened by double-clicking.</p>
+         <p>In a terminal inside this folder, run:</p>
+         <pre><code>npx serve</code></pre>
+         <p>Then open the address it prints (usually <code>http://localhost:3000</code>). The VS Code "Live Server" extension works too.</p>`);
+      return;
+    }
+    try {
+      const res = await fetch('topics.json', { cache: 'no-store' });
+      sections = await res.json();
+    } catch {
+      showNotice('Topic list not readable', '<p>Check that <code>topics.json</code> exists in this folder and is valid JSON (watch for a missing comma or an extra one at the end).</p>');
+      return;
+    }
+    flat = sections.flatMap(s => s.topics);
+    renderNav();
+    loadTopic();
+  }
+
+  window.addEventListener('hashchange', loadTopic);
+  search.addEventListener('input', e => renderNav(e.target.value));
+  document.querySelector('.menu-btn').addEventListener('click', () => document.body.classList.toggle('menu-open'));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') document.body.classList.remove('menu-open'); });
+
+  init();
+</script>
+</body>
+</html>

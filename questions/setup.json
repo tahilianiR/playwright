@@ -1,0 +1,32 @@
+[
+  {
+    "type": "mcq",
+    "q": "Which command creates a new Playwright project?",
+    "options": ["`npm install playwright`", "`npm init playwright@latest`", "`npx playwright new`", "`npx create-playwright-app`"],
+    "answer": 1,
+    "explain": "`npm init playwright@latest` scaffolds the config file, a `tests/` folder and a sample test, and offers to install the browsers."
+  },
+  {
+    "type": "mcq",
+    "q": "Which command runs tests in a visible browser window?",
+    "options": ["`npx playwright test --headed`", "`npx playwright test --visible`", "`npx playwright test --ui-mode`", "`npx playwright open`"],
+    "answer": 0,
+    "explain": "`--headed` shows the browser. `--ui` opens UI mode, which is a different tool with time-travel debugging."
+  },
+  {
+    "type": "mcq",
+    "q": "How do you open the HTML report from the last run?",
+    "options": ["`npx playwright report`", "`npx playwright open-report`", "`npx playwright show-report`", "`npx playwright test --report`"],
+    "answer": 2
+  },
+  {
+    "type": "direct",
+    "q": "How do you run a single spec file, and how do you run it in one browser only?",
+    "answer": "```bash\nnpx playwright test login.spec.ts\nnpx playwright test login.spec.ts --project=chromium\n```\n\n`--project` matches a project name from `playwright.config.ts`."
+  },
+  {
+    "type": "direct",
+    "q": "What does `npx playwright install` do, and when do you need it again?",
+    "answer": "It downloads the browser binaries (Chromium, Firefox, WebKit) that Playwright drives. Run it again after upgrading `@playwright/test`, because each version expects specific browser builds. On CI, use `npx playwright install --with-deps` to also install the OS libraries."
+  }
+]

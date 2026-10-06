@@ -18,3 +18,27 @@ Then open http://localhost:3000
 3. Refresh the browser.
 
 To add a new section, copy a whole `{ "section": ..., "topics": [...] }` block in `topics.json`.
+
+## Interview questions
+
+Each topic has an **Interview questions** tab. Questions for a topic live in `questions/<note-name>.json`, for example `questions/locators.json` for `notes/locators.md`. If the file doesn't exist, the tab shows a "No questions yet" message.
+
+```json
+[
+  {
+    "type": "mcq",
+    "q": "Question text (markdown and `code` allowed)",
+    "options": ["Option A", "Option B", "Option C"],
+    "answer": 1,
+    "explain": "Shown after you pick an option."
+  },
+  {
+    "type": "direct",
+    "q": "Question text",
+    "answer": "Shown when you click Show answer. Markdown and code blocks allowed."
+  }
+]
+```
+
+- `answer` for an MCQ is the position of the correct option, counting from 0.
+- Separate entries with commas, with no comma after the last one.

@@ -4,34 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Playwright notes</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
 <style>
   :root {
-    --bg: #FAFBFC;
-    --panel: #EEF2F5;
-    --ink: #1C2733;
-    --muted: #5B6B7A;
-    --line: #D8DFE6;
-    --accent: #2E6F57;
-    --accent-soft: #DCEEE5;
-    --code-bg: #F2F4F7;
-    --sans: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    color-scheme: light dark;
+    /* Saved themes (previous):
+       Medium gray: --bg #B4B9C0; --panel #A7ACB4; --ink #080A0D; --muted #2F353E;
+                    --line #8D939C; --accent #103E63; --accent-soft #98AFC4; --code-bg #A9AEB6;
+       Off-white:   --bg #F5F5F0; --panel #EAEAE3; --ink #1A1C20; --muted #5A5F66;
+                    --line #D6D6CD; --accent #1D4F7A; --accent-soft #DCE6EE; --code-bg #E9E9E2; */
+    /* Playwright docs theme (light) */
+    --bg: #D6D9DE;
+    --panel: #CBCED4;
+    --ink: #1C1E21;
+    --muted: #606770;
+    --line: #B0B5BC;
+    --accent: #1A7E1F;
+    --accent-soft: #E2F2E3;
+    --code-bg: #CDD1D6;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif;
+    --mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   }
+  /* Playwright docs theme (dark) */
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #15191E;
-      --panel: #1B2027;
-      --ink: #E3E8EE;
-      --muted: #93A1AF;
-      --line: #2A323C;
-      --accent: #6FC2A0;
-      --accent-soft: #1F3A30;
-      --code-bg: #0F1318;
+      --bg: #9c9ca5;
+      --panel: #141416;
+      --ink: #E3E3E3;
+      --muted: #A3A8AF;
+      --line: #2A2D32;
+      --accent: #45BA4B;
+      --accent-soft: #1F3A22;
+      --code-bg: rgba(255, 255, 255, 0.1);
     }
   }
   * { box-sizing: border-box; }
@@ -39,7 +42,7 @@
   body {
     background: var(--bg);
     color: var(--ink);
-    font: 17px/1.6 var(--sans);
+    font: 16px/1.65 var(--sans);
     display: grid;
     grid-template-columns: 280px 1fr;
   }
@@ -140,17 +143,36 @@
     padding: 1px 5px;
     border-radius: 4px;
   }
+  /* Code blocks: VS Code Dark+ look */
   article pre {
-    background: var(--code-bg);
-    border: 1px solid var(--line);
+    background: #1F1F1F;
+    color: #D4D4D4;
+    border: 1px solid #3C3C3C;
     border-radius: 8px;
     padding: 16px 18px;
     overflow-x: auto;
-    font-size: 0.9rem;
-    line-height: 1.5;
+    font-size: 0.95rem;
+    line-height: 1.6;
   }
-  article pre code { background: none; padding: 0; font-size: inherit; }
+  article pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
   pre code.hljs { background: none; padding: 0; }
+  .hljs-keyword, .hljs-literal, .hljs-selector-tag, .hljs-doctag { color: #569CD6; }
+  .hljs-string, .hljs-regexp, .hljs-template-variable, .hljs-addition { color: #CE9178; }
+  .hljs-comment, .hljs-quote { color: #6A9955; font-style: normal; }
+  .hljs-number, .hljs-symbol, .hljs-bullet { color: #B5CEA8; }
+  .hljs-title, .hljs-title.function_, .hljs-section { color: #DCDCAA; }
+  .hljs-title.class_, .hljs-type, .hljs-built_in, .hljs-name, .hljs-tag { color: #4EC9B0; }
+  .hljs-variable, .hljs-attr, .hljs-attribute, .hljs-property, .hljs-params, .hljs-subst { color: #9CDCFE; }
+  .hljs-meta, .hljs-deletion { color: #C586C0; }
+  /* Extra token classes added by vscodeColors() */
+  .vs-ctl { color: #C586C0; }
+  .vs-kw { color: #569CD6; }
+  .vs-fn { color: #DCDCAA; }
+  .vs-var { color: #9CDCFE; }
+  .vs-type { color: #4EC9B0; }
+  .vs-b0 { color: #FFD700; }
+  .vs-b1 { color: #DA70D6; }
+  .vs-b2 { color: #179FFF; }
   article blockquote {
     margin: 16px 0;
     padding: 4px 16px;
@@ -189,6 +211,43 @@
     background: var(--panel);
   }
   .notice h1 { font-size: 1.4rem; margin-top: 0; }
+
+  /* Notes / Interview questions tabs */
+  .tabs { display: flex; gap: 8px; margin: 0 0 24px; border-bottom: 1px solid var(--line); }
+  .tabs a {
+    padding: 8px 14px;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .tabs a:hover { color: var(--ink); }
+  .tabs a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* Interview questions */
+  .q-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .q-card { border: 1px solid var(--line); border-radius: 8px; padding: 18px 20px; margin: 0 0 18px; background: var(--panel); }
+  .q-card .q-title { font-weight: 700; margin: 0 0 12px; }
+  .q-card .q-title small { color: var(--muted); font-weight: 400; margin-right: 6px; }
+  .q-opt, .q-btn {
+    font: inherit;
+    color: var(--ink);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  .q-opt { display: block; width: 100%; text-align: left; margin: 0 0 8px; }
+  .q-opt:hover:not(:disabled), .q-btn:hover { border-color: var(--accent); }
+  .q-opt:disabled { cursor: default; color: var(--ink); opacity: 1; }
+  .q-opt.correct { border-color: #2E9E4F; background: rgba(46, 158, 79, 0.18); }
+  .q-opt.wrong { border-color: #D14B4B; background: rgba(209, 75, 75, 0.18); }
+  .q-answer { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); }
+  .q-answer > :first-child { margin-top: 0; }
+  .q-answer > :last-child { margin-bottom: 0; }
+  .q-result { font-weight: 700; margin: 4px 0 8px; }
 
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
@@ -272,15 +331,171 @@
   }
 
   function markActive() {
-    const current = location.hash.slice(1);
+    const { id: current } = route();
     nav.querySelectorAll('a').forEach(a => {
       if (slug(a.dataset.file) === current) a.setAttribute('aria-current', 'page');
       else a.removeAttribute('aria-current');
     });
   }
 
+  // Finer VS Code-style colors on top of highlight.js: pink control keywords,
+  // yellow function calls, light-blue variables, teal types, rainbow brackets.
+  const CTL = new Set('import from export default return if else for while do of in await try catch finally throw switch case break continue yield'.split(' '));
+  const KW = new Set('const let var function class new async typeof instanceof extends void delete interface type enum implements public private protected readonly static true false null undefined this'.split(' '));
+  const SKIP = '.hljs-string, .hljs-comment, .hljs-regexp, .hljs-number, .hljs-quote';
+
+  // Shell blocks: purple command names, light-blue flags (like the Playwright docs).
+  function shellColors(code) {
+    const walker = document.createTreeWalker(code, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    const tok = /\n|&&|\|\||[|;]|--?[A-Za-z][\w-]*|[^\s|&;]+/g;
+    let expectCmd = true;
+    for (const node of nodes) {
+      const parent = node.parentElement;
+      if (parent !== code) {
+        // string, comment or keyword span: a comment leaves state alone, anything else is a word
+        if (!parent.closest('.hljs-comment')) expectCmd = false;
+        continue;
+      }
+      const text = node.textContent;
+      const frag = document.createDocumentFragment();
+      let last = 0, m;
+      while ((m = tok.exec(text))) {
+        const t = m[0];
+        if (m.index > last) frag.append(text.slice(last, m.index));
+        last = m.index + t.length;
+        if (/^(\n|&&|\|\||[|;])$/.test(t)) { expectCmd = true; frag.append(t); continue; }
+        let cls = null;
+        if (/^--?[A-Za-z]/.test(t) && !expectCmd) cls = 'vs-var';
+        else if (expectCmd) { cls = 'vs-ctl'; expectCmd = false; }
+        if (!cls) { frag.append(t); continue; }
+        const sp = document.createElement('span');
+        sp.className = cls;
+        sp.textContent = t;
+        frag.append(sp);
+      }
+      if (last < text.length) frag.append(text.slice(last));
+      node.replaceWith(frag);
+    }
+  }
+
+  function vscodeColors(code) {
+    if (/language-(bash|sh|shell|zsh|console)\b/.test(code.className)) { shellColors(code); return; }
+    if (!/language-(typescript|ts|javascript|js|tsx|jsx)\b/.test(code.className)) return;
+    code.querySelectorAll('.hljs-keyword, .hljs-literal').forEach(el => {
+      const w = el.textContent.trim();
+      el.classList.add(CTL.has(w) ? 'vs-ctl' : 'vs-kw');
+    });
+    const walker = document.createTreeWalker(code, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    let depth = 0;
+    const tok = /[A-Za-z_$][\w$]*|[()[\]{}]/g;
+    for (const node of nodes) {
+      const parent = node.parentElement;
+      if (parent.closest(SKIP) || parent.closest('.hljs-keyword, .hljs-literal, .hljs-title, .hljs-built_in, .hljs-type')) continue;
+      const text = node.textContent;
+      const frag = document.createDocumentFragment();
+      let last = 0, m;
+      const put = (s, cls) => {
+        if (!cls) { frag.append(s); return; }
+        const sp = document.createElement('span');
+        sp.className = cls;
+        sp.textContent = s;
+        frag.append(sp);
+      };
+      tok.lastIndex = 0;
+      while ((m = tok.exec(text))) {
+        if (m.index > last) put(text.slice(last, m.index));
+        const t = m[0];
+        let cls;
+        if ('([{'.includes(t)) cls = 'vs-b' + (depth++ % 3);
+        else if (')]}'.includes(t)) cls = 'vs-b' + (Math.max(depth-- - 1, 0) % 3);
+        else if (CTL.has(t)) cls = 'vs-ctl';
+        else if (KW.has(t)) cls = 'vs-kw';
+        else if (/^\s*\(/.test(text.slice(m.index + t.length))) cls = 'vs-fn';
+        else if (/^[A-Z]/.test(t) && t !== t.toUpperCase()) cls = 'vs-type';
+        else cls = 'vs-var';
+        put(t, cls);
+        last = m.index + t.length;
+      }
+      if (last === 0) continue;
+      if (last < text.length) put(text.slice(last));
+      node.replaceWith(frag);
+    }
+  }
+
+  const route = () => {
+    const [id, view] = location.hash.slice(1).split('/');
+    return { id, view: view === 'questions' ? 'questions' : 'notes' };
+  };
+
+  function tabsHtml(id, view) {
+    const cur = v => (view === v ? ' aria-current="page"' : '');
+    return `<div class="tabs"><a href="#${id}"${cur('notes')}>Notes</a><a href="#${id}/questions"${cur('questions')}>Interview questions</a></div>`;
+  }
+
+  function renderQuestions(list) {
+    let answered = 0, correct = 0;
+    const bar = document.createElement('div');
+    bar.className = 'q-bar';
+    const wrap = document.createElement('div');
+    const updateBar = () => {
+      const mcq = list.filter(q => q.type === 'mcq').length;
+      bar.textContent = `${list.length} questions` + (mcq ? ` · MCQ score: ${correct}/${answered} answered` : '');
+    };
+    updateBar();
+
+    list.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      card.innerHTML = `<p class="q-title"><small>Q${i + 1}</small>${marked.parseInline(item.q || '')}</p>`;
+
+      if (item.type === 'mcq') {
+        const result = document.createElement('div');
+        const btns = (item.options || []).map((opt, n) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'q-opt';
+          b.innerHTML = marked.parseInline(opt);
+          b.addEventListener('click', () => {
+            btns.forEach((x, k) => { x.disabled = true; if (k === item.answer) x.classList.add('correct'); });
+            const ok = n === item.answer;
+            if (!ok) b.classList.add('wrong');
+            answered++; if (ok) correct++;
+            updateBar();
+            result.innerHTML = `<div class="q-answer"><p class="q-result">${ok ? 'Correct' : 'Not quite'}</p>${item.explain ? marked.parse(item.explain) : ''}</div>`;
+            result.querySelectorAll('pre code').forEach(el => { hljs.highlightElement(el); vscodeColors(el); });
+          });
+          card.append(b);
+          return b;
+        });
+        card.append(result);
+      } else {
+        const show = document.createElement('button');
+        show.type = 'button';
+        show.className = 'q-btn';
+        show.textContent = 'Show answer';
+        const ans = document.createElement('div');
+        ans.className = 'q-answer';
+        ans.hidden = true;
+        ans.innerHTML = marked.parse(item.answer || '');
+        ans.querySelectorAll('pre code').forEach(el => { hljs.highlightElement(el); vscodeColors(el); });
+        show.addEventListener('click', () => {
+          ans.hidden = !ans.hidden;
+          show.textContent = ans.hidden ? 'Show answer' : 'Hide answer';
+        });
+        card.append(show, ans);
+      }
+      wrap.append(card);
+    });
+    content.append(bar, wrap);
+  }
+
   async function loadTopic() {
-    const id = location.hash.slice(1) || slug(flat[0].file);
+    const { id: hashId, view } = route();
+    const id = hashId || slug(flat[0].file);
     const index = flat.findIndex(t => slug(t.file) === id);
     if (index === -1) {
       showNotice('Topic not found', `<p>There's no topic called <code>${id}</code> in <code>topics.json</code>. Pick one from the list.</p>`);
@@ -290,12 +505,26 @@
     markActive();
     document.body.classList.remove('menu-open');
 
-    try {
+    const tabs = tabsHtml(id, view);
+
+    if (view === 'questions') {
+      document.title = `${topic.title} questions – Playwright notes`;
+      const qfile = `questions/${slug(topic.file)}.json`;
+      try {
+        const res = await fetch(qfile, { cache: 'no-store' });
+        if (!res.ok) throw new Error(res.status);
+        const list = await res.json();
+        content.innerHTML = tabs + `<h1>${topic.title}: interview questions</h1>`;
+        renderQuestions(list);
+      } catch {
+        content.innerHTML = tabs + `<div class="notice"><h1>No questions yet</h1><p>Create <code>${qfile}</code> to add interview questions for this topic. See the README for the format.</p></div>`;
+      }
+    } else try {
       const res = await fetch(`notes/${topic.file}`, { cache: 'no-store' });
       if (!res.ok) throw new Error(res.status);
       const md = await res.text();
-      content.innerHTML = marked.parse(md);
-      content.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+      content.innerHTML = tabs + marked.parse(md);
+      content.querySelectorAll('pre code').forEach(el => { hljs.highlightElement(el); vscodeColors(el); });
       document.title = `${topic.title} – Playwright notes`;
     } catch {
       showNotice('Notes file missing', `<p>Couldn't load <code>notes/${topic.file}</code>. Create that file, or fix the file name in <code>topics.json</code>.</p>`);
@@ -305,8 +534,8 @@
     const prev = flat[index - 1];
     const next = flat[index + 1];
     pager.innerHTML =
-      (prev ? `<a class="prev" href="#${slug(prev.file)}"><span>Previous</span>${prev.title}</a>` : '') +
-      (next ? `<a class="next" href="#${slug(next.file)}"><span>Next</span>${next.title}</a>` : '');
+      (prev ? `<a class="prev" href="#${slug(prev.file)}${view === 'questions' ? '/questions' : ''}"><span>Previous</span>${prev.title}</a>` : '') +
+      (next ? `<a class="next" href="#${slug(next.file)}${view === 'questions' ? '/questions' : ''}"><span>Next</span>${next.title}</a>` : '');
     window.scrollTo(0, 0);
   }
 

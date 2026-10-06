@@ -1,0 +1,37 @@
+[
+  {
+    "type": "mcq",
+    "q": "Which command records your browser actions into test code?",
+    "options": ["`npx playwright record`", "`npx playwright codegen`", "`npx playwright test --record`", "`npx playwright trace`"],
+    "answer": 1
+  },
+  {
+    "type": "mcq",
+    "q": "What does `await page.pause()` do?",
+    "options": [
+      "Waits one second",
+      "Stops the test and opens the Inspector so you can step through",
+      "Skips the test",
+      "Closes the browser"
+    ],
+    "answer": 1,
+    "explain": "It pauses execution when the browser is headed, such as when running with `--debug`."
+  },
+  {
+    "type": "mcq",
+    "q": "Which of these is NOT shown in the Trace Viewer?",
+    "options": ["Every action", "DOM snapshots", "Network calls", "The source code of the application's backend"],
+    "answer": 3,
+    "explain": "Traces include actions, DOM snapshots, network requests and console logs from the browser."
+  },
+  {
+    "type": "direct",
+    "q": "A test failed only on CI. How do you investigate?",
+    "answer": "1. Enable `trace: 'on-first-retry'` (or `'retain-on-failure'`) and `screenshot: 'only-on-failure'`.\n2. Publish the report and `test-results/` as CI artifacts.\n3. Download `trace.zip` and open it with `npx playwright show-trace`.\n4. Look at the failing action, its DOM snapshot, the network calls and console errors."
+  },
+  {
+    "type": "direct",
+    "q": "What is UI mode and how is it different from `--debug`?",
+    "answer": "`npx playwright test --ui` opens a window with the test list, a timeline and DOM snapshots, so you can travel back to any step and rerun tests on file changes. `--debug` runs headed and opens the Inspector to step through one action at a time."
+  }
+]

@@ -1,0 +1,43 @@
+[
+  {
+    "type": "mcq",
+    "q": "What does setting `baseURL` in `use` let you do?",
+    "options": [
+      "Run tests against several sites at once",
+      "Call `page.goto('/login')` with a relative path",
+      "Skip the login step",
+      "Change the browser's home page"
+    ],
+    "answer": 1,
+    "explain": "Relative URLs are resolved against `baseURL`, so the host is set in one place and can differ per environment."
+  },
+  {
+    "type": "mcq",
+    "q": "What does `trace: 'on-first-retry'` do?",
+    "options": [
+      "Records a trace for every test",
+      "Records a trace only when a test is retried after a failure",
+      "Retries a test once if tracing fails",
+      "Disables tracing on CI"
+    ],
+    "answer": 1,
+    "explain": "It keeps trace files small by only recording when a test is running for the first retry. Retries must be enabled for any trace to be recorded."
+  },
+  {
+    "type": "mcq",
+    "q": "In `timeout: 30 * 60 * 1000`, how long is each test allowed to run?",
+    "options": ["30 seconds", "30 minutes", "30 milliseconds", "1 hour"],
+    "answer": 1,
+    "explain": "30 * 60 * 1000 ms = 1,800,000 ms = 30 minutes. The default is 30 seconds."
+  },
+  {
+    "type": "direct",
+    "q": "How would you retry failed tests only on CI?",
+    "answer": "Read the environment in the config:\n\n```ts\nexport default defineConfig({\n  retries: process.env.CI ? 2 : 0,\n});\n```\n\nYou can also pass `--retries=2` on the command line, which overrides the config."
+  },
+  {
+    "type": "direct",
+    "q": "What is a project in `playwright.config.ts` and why use several?",
+    "answer": "A project is a named group of settings (browser, viewport, base URL, test folder) that the same tests run under. Use several to run the suite on Chromium, Firefox and WebKit, on desktop and mobile viewports, or against different environments. Run one with `--project=<name>`."
+  }
+]

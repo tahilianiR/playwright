@@ -1,0 +1,26 @@
+[
+  {
+    "type": "mcq",
+    "q": "Which locator does Playwright recommend first for finding a button?",
+    "options": [
+      "`page.locator('#submit')`",
+      "`page.getByRole('button', { name: 'Submit' })`",
+      "`page.locator('//button[1]')`",
+      "`page.getByText('Submit')`"
+    ],
+    "answer": 1,
+    "explain": "`getByRole` matches how users and assistive tech see the page, so it is the most resilient. CSS and XPath are the last resort."
+  },
+  {
+    "type": "mcq",
+    "q": "A locator can go stale like an ElementHandle.",
+    "options": ["True", "False"],
+    "answer": 1,
+    "explain": "Locators re-query the DOM every time they are used and auto-wait, so they do not go stale."
+  },
+  {
+    "type": "direct",
+    "q": "How do you click the Edit button inside the row that contains the text `Oncology`?",
+    "answer": "Filter the rows, then chain a locator inside the match:\n\n```ts\nconst row = page.getByRole('row').filter({ hasText: 'Oncology' });\nawait row.getByRole('button', { name: 'Edit' }).click();\n```"
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "type": "mcq",
+    "q": "Which command installs the browsers and their OS dependencies on a CI agent?",
+    "options": [
+      "`npx playwright install`",
+      "`npx playwright install --with-deps`",
+      "`npm install playwright --deps`",
+      "`npx playwright setup`"
+    ],
+    "answer": 1
+  },
+  {
+    "type": "mcq",
+    "q": "Why use `npm ci` instead of `npm install` in a pipeline?",
+    "options": [
+      "It is faster only on Windows",
+      "It installs exactly what `package-lock.json` lists and fails if they differ",
+      "It also installs browsers",
+      "It updates the lock file"
+    ],
+    "answer": 1,
+    "explain": "It gives repeatable installs, which is what you want on CI."
+  },
+  {
+    "type": "mcq",
+    "q": "Which Jenkins plugin does the `publishHTML` step need?",
+    "options": ["Blue Ocean", "HTML Publisher", "Pipeline Utility Steps", "Allure"],
+    "answer": 1
+  },
+  {
+    "type": "direct",
+    "q": "Why put `publishHTML` in the `post { always { ... } }` block?",
+    "answer": "The report should be published even when tests fail. A failed `sh` step stops the stage, but the `post` block with `always` still runs afterwards, so you can open the report for a failed build."
+  },
+  {
+    "type": "direct",
+    "q": "How does your Playwright config know it is running on Jenkins?",
+    "answer": "Set the `CI=true` environment variable in the pipeline. The config reads it, for example `retries: process.env.CI ? 2 : 0`, and you can use it for other settings such as `forbidOnly: !!process.env.CI` to fail the build if a stray `test.only` is committed."
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "type": "mcq",
+    "q": "Which of these is a built-in Playwright fixture?",
+    "options": ["`loginPage`", "`page`", "`driver`", "`app`"],
+    "answer": 1,
+    "explain": "Built-ins include `page`, `context`, `browser` and `request`. `loginPage` is the custom fixture from the notes."
+  },
+  {
+    "type": "mcq",
+    "q": "In a custom fixture, where does the test body run?",
+    "options": [
+      "Before the fixture function starts",
+      "At the `await use(...)` call",
+      "After the fixture function ends",
+      "In a separate worker"
+    ],
+    "answer": 1,
+    "explain": "Code before `use()` is setup. Code after `use()` is teardown and runs after the test finishes."
+  },
+  {
+    "type": "mcq",
+    "q": "How do you create a custom fixture?",
+    "options": ["`test.fixture(...)`", "`base.extend({ ... })`", "`test.use(...)` only", "`defineFixture(...)`"],
+    "answer": 1,
+    "explain": "`base.extend<MyFixtures>({ ... })` returns a new `test` that you export and import in specs."
+  },
+  {
+    "type": "direct",
+    "q": "Why are fixtures preferred over `beforeEach` and `afterEach`?",
+    "answer": "- Setup and teardown live together in one place.\n- They are created only for tests that ask for them.\n- They can depend on each other.\n- They are typed, so the test gets autocomplete.\n- They stay isolated per test."
+  },
+  {
+    "type": "direct",
+    "q": "Write a fixture that gives a test a `LoginPage` that is already open.",
+    "answer": "```ts\nimport { test as base } from '@playwright/test';\nimport { LoginPage } from './pages/login-page';\n\ntype MyFixtures = { loginPage: LoginPage };\n\nexport const test = base.extend<MyFixtures>({\n  loginPage: async ({ page }, use) => {\n    const loginPage = new LoginPage(page);\n    await loginPage.goto();\n    await use(loginPage);\n  },\n});\n```"
+  }
+]

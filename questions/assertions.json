@@ -1,0 +1,47 @@
+[
+  {
+    "type": "mcq",
+    "q": "What makes `await expect(locator).toBeVisible()` a web-first assertion?",
+    "options": [
+      "It runs in the browser",
+      "It retries until the condition is met or the timeout is reached",
+      "It never fails",
+      "It checks the element only once"
+    ],
+    "answer": 1,
+    "explain": "Web-first assertions poll the page, which removes the need for manual waits and makes tests less flaky."
+  },
+  {
+    "type": "mcq",
+    "q": "Which line does NOT retry?",
+    "options": [
+      "`await expect(page.getByText('Done')).toBeVisible()`",
+      "`await expect(page.getByRole('row')).toHaveCount(10)`",
+      "`expect(await page.getByText('Done').isVisible()).toBe(true)`",
+      "`await expect(page).toHaveURL('/home')`"
+    ],
+    "answer": 2,
+    "explain": "`isVisible()` returns the answer at that instant, and the plain `expect(...).toBe()` just compares it. Use the locator assertion instead."
+  },
+  {
+    "type": "mcq",
+    "q": "What does `expect.soft(...)` do when it fails?",
+    "options": [
+      "Stops the test immediately",
+      "Skips the test",
+      "Marks the test failed but keeps running it",
+      "Retries the assertion forever"
+    ],
+    "answer": 2
+  },
+  {
+    "type": "direct",
+    "q": "Name five common assertions on a page or locator.",
+    "answer": "- `toHaveTitle` and `toHaveURL` on the page\n- `toBeVisible` and `toBeHidden`\n- `toHaveText` and `toContainText`\n- `toHaveValue`\n- `toHaveCount`\n\nAlso useful: `toBeEnabled`, `toBeChecked`, `toHaveAttribute`."
+  },
+  {
+    "type": "direct",
+    "q": "When would you use a soft assertion?",
+    "answer": "When one test checks several independent things, such as every field on a summary panel, and you want a report of all the mismatches in a single run. The test still ends as failed if any soft assertion failed."
+  }
+]

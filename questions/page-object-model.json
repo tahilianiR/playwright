@@ -1,0 +1,37 @@
+[
+  {
+    "type": "mcq",
+    "q": "What is the main benefit of the Page Object Model?",
+    "options": [
+      "Tests run faster",
+      "A UI change only needs fixing in one place",
+      "It removes the need for locators",
+      "It replaces assertions"
+    ],
+    "answer": 1,
+    "explain": "Locators and actions for a page live in one class, so specs read as steps and are not affected by selector changes."
+  },
+  {
+    "type": "mcq",
+    "q": "Where should assertions normally go?",
+    "options": ["Inside the page object", "In the spec file", "In the config", "In a fixture only"],
+    "answer": 1,
+    "explain": "Keep actions in the page object and assertions in the spec, so the test says what it expects."
+  },
+  {
+    "type": "mcq",
+    "q": "What type is used for a locator property in a page object class?",
+    "options": ["`Element`", "`Locator`", "`Selector`", "`Handle`"],
+    "answer": 1
+  },
+  {
+    "type": "direct",
+    "q": "Where do you define locators in a page object, and why?",
+    "answer": "In the constructor, as `readonly` properties. They are created once from the `page`, are easy to find, and can be reused by every method of the class.\n\n```ts\nconstructor(private page: Page) {\n  this.email = page.getByLabel('Email');\n}\n```"
+  },
+  {
+    "type": "direct",
+    "q": "How do you combine the Page Object Model with fixtures?",
+    "answer": "Create the page object inside a fixture and pass it to the test with `use()`. The spec just asks for `loginPage` and does not create it, which removes setup code from every test."
+  }
+]

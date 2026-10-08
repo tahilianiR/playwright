@@ -6,43 +6,36 @@
 <title>Playwright notes</title>
 <style>
   :root {
-    color-scheme: light dark;
+    color-scheme: light;
     /* Saved themes (previous):
        Medium gray: --bg #B4B9C0; --panel #A7ACB4; --ink #080A0D; --muted #2F353E;
                     --line #8D939C; --accent #103E63; --accent-soft #98AFC4; --code-bg #A9AEB6;
        Off-white:   --bg #F5F5F0; --panel #EAEAE3; --ink #1A1C20; --muted #5A5F66;
                     --line #D6D6CD; --accent #1D4F7A; --accent-soft #DCE6EE; --code-bg #E9E9E2; */
-    /* Playwright docs theme (light) */
-    --bg: #D6D9DE;
-    --panel: #CBCED4;
+    /* Warm off-white replaced white:  --bg #FFFFFF; --panel #F5F6F7; --ink #1C1E21; --muted #606770; --line #DADDE1; --accent #1A7E1F; --accent-soft #E2F2E3; --code-bg #F0F2F4 */
+    /* Slate blue (#6D8196) was: --bg #6D8196; --panel #8394A8; --ink #080C10; --muted #141C25; --line #4B5D70; --accent #04210A; --accent-soft #A9B8C8; --code-bg #8CA0B3 */
+    /* Neutral off-white was: --bg #F5F5F4; --panel #EAEAE9; --ink #212327; --muted #62666C; --line #D8D8D6; --accent #2C6B35; --accent-soft #E0ECE2; --code-bg #E8E8E6; chip border #CDCDCA */
+    /* Taupe was: --bg #928179; --panel #A49489; --ink #0A0A0B; --muted #1E1A18; --line #6F615A; --accent #0B2E12; --accent-soft #B8AAA0; --code-bg #A99A90; chip border #6F615A */
+    /* White was: --bg #FFFFFF; --panel #F5F6F7; --line #DADDE1; --accent-soft #E2F2E3; --code-bg #E8EBEF; chip border #CBD0D6 */
+    /* Neutral gray was: --bg #F2F2F2; --panel #E6E6E6; --line #D2D2D2; --accent-soft #DCEBDD; --code-bg #E3E3E3; chip border #C6C6C6 */
+    --bg: #FFFFFF;
+    --panel: #F5F6F7;
     --ink: #1C1E21;
     --muted: #606770;
-    --line: #B0B5BC;
+    --line: #DADDE1;
     --accent: #1A7E1F;
     --accent-soft: #E2F2E3;
-    --code-bg: #CDD1D6;
-    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif;
+    --code-bg: #E8EBEF;
+    --sans: Verdana, Geneva, Tahoma, sans-serif;
     --mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   }
-  /* Playwright docs theme (dark) */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #9c9ca5;
-      --panel: #141416;
-      --ink: #E3E3E3;
-      --muted: #A3A8AF;
-      --line: #2A2D32;
-      --accent: #45BA4B;
-      --accent-soft: #1F3A22;
-      --code-bg: rgba(255, 255, 255, 0.1);
-    }
-  }
+  /* Dark variant (not used): --bg #0C0C0E; --panel #141416; --ink #E3E3E3; --muted #A3A8AF; --line #2A2D32; --accent #45BA4B; --accent-soft #1F3A22; */
   * { box-sizing: border-box; }
   html, body { height: 100%; margin: 0; }
   body {
     background: var(--bg);
     color: var(--ink);
-    font: 16px/1.65 var(--sans);
+    font: 15px/1.7 var(--sans);
     display: grid;
     grid-template-columns: 280px 1fr;
   }
@@ -127,19 +120,31 @@
     line-height: 1.15;
     letter-spacing: -0.02em;
     margin: 0 0 24px;
+    color: #1A7E1F;
   }
   article h2 {
     font-size: 1.35rem;
-    margin: 40px 0 10px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
+    margin: 28px 0 10px;
+    color: #000000;
   }
-  article h3 { font-size: 1.1rem; margin: 28px 0 8px; }
+  article h3 { font-size: 1.1rem; margin: 28px 0 8px; color: #2563EB; }
+  .subtopics {
+    margin: 0 0 24px;
+    padding: 10px 10px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .subtopics ul { margin: 0; padding-left: 14px; }
+  .subtopics a { color: #2563EB; text-decoration: none; }
+  .subtopics a:hover { text-decoration: underline; }
+  article h4 { font-size: 1rem; margin: 22px 0 6px; }
   article a { color: var(--accent); }
   article code {
     font-family: var(--mono);
     font-size: 0.86em;
     background: var(--code-bg);
+    border: 1px solid #CBD0D6;
     padding: 1px 5px;
     border-radius: 4px;
   }
@@ -154,7 +159,7 @@
     font-size: 0.95rem;
     line-height: 1.6;
   }
-  article pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+  article pre code { background: none; border: 0; padding: 0; font-size: inherit; color: inherit; }
   pre code.hljs { background: none; padding: 0; }
   .hljs-keyword, .hljs-literal, .hljs-selector-tag, .hljs-doctag { color: #569CD6; }
   .hljs-string, .hljs-regexp, .hljs-template-variable, .hljs-addition { color: #CE9178; }
@@ -493,6 +498,33 @@
     content.append(bar, wrap);
   }
 
+  // List every h3 as a link at the top of the page. The page uses hash routing,
+  // so the links scroll with JS instead of changing location.hash.
+  function buildSubtopics() {
+    const heads = [...content.querySelectorAll('h3')];
+    if (!heads.length) return;
+    const box = document.createElement('nav');
+    box.className = 'subtopics';
+    box.setAttribute('aria-label', 'Sub-topics');
+    const list = document.createElement('ul');
+    heads.forEach((h, i) => {
+      h.id = `sub-${i}`;
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `#sub-${i}`;
+      a.textContent = h.textContent;
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      li.append(a);
+      list.append(li);
+    });
+    box.append(list);
+    const anchor = content.querySelector('h2') || content.querySelector('.tabs');
+    if (anchor) anchor.after(box); else content.prepend(box);
+  }
+
   async function loadTopic() {
     const { id: hashId, view } = route();
     const id = hashId || slug(flat[0].file);
@@ -525,6 +557,7 @@
       const md = await res.text();
       content.innerHTML = tabs + marked.parse(md);
       content.querySelectorAll('pre code').forEach(el => { hljs.highlightElement(el); vscodeColors(el); });
+      buildSubtopics();
       document.title = `${topic.title} – Playwright notes`;
     } catch {
       showNotice('Notes file missing', `<p>Couldn't load <code>notes/${topic.file}</code>. Create that file, or fix the file name in <code>topics.json</code>.</p>`);

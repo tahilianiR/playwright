@@ -15,6 +15,12 @@
       { "title": "Page Object Model", "file": "page-object-model.md" }
     ]
   },
+   {
+    "section": "Configurations",
+    "topics": [
+      { "title": "Timeouts", "file": "timeouts.md" }
+    ]
+  },
   {
     "section": "Running and debugging",
     "topics": [

@@ -1,6 +1,6 @@
 ## Timeouts
 
-### Test timeout  | default 30 seconds 
+### Test timeout __ default 30 seconds | timeout:  | test.setTimeout(ms) 
 
 ```ts
 import { defineConfig } from '@playwright/test';
@@ -46,4 +46,24 @@ test.describe('group', () => {
 ```
 
 
+### expect timeout  __ default 5 seconds |  expect: { timeout: } | assertion level
+
+```ts
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  expect: {
+    timeout: 10_000,
+  },
+});
+```
+
+Specify expect timeout for a single assertion
+```ts
+import { test, expect } from '@playwright/test';
+
+test('example', async ({ page }) => {
+  await expect(locator).toHaveText('hello', { timeout: 10_000 });
+});
+```
 

@@ -1,6 +1,10 @@
 ## Timeouts
 
-### Test timeout __ default 30 seconds | timeout:  | test.setTimeout(ms) 
+### 1. Global timeout __ default no timeout | globalTimeout: 4 * 60 * 60 * 1000 
+
+
+
+### 2. Test timeout __ default 30 seconds | timeout: 20 * 60 * 1000 | test.setTimeout(ms) 
 
 ```ts
 import { defineConfig } from '@playwright/test';
@@ -46,7 +50,7 @@ test.describe('group', () => {
 ```
 
 
-### expect timeout  __ default 5 seconds |  expect: { timeout: } | assertion level
+### 3. expect timeout  __ default 5 seconds |  expect: { timeout: } | assertion level
 
 ```ts
 import { defineConfig } from '@playwright/test';
@@ -58,7 +62,7 @@ export default defineConfig({
 });
 ```
 
-Specify expect timeout for a single assertion
+#### Specify expect timeout for a single assertion
 ```ts
 import { test, expect } from '@playwright/test';
 
@@ -67,3 +71,15 @@ test('example', async ({ page }) => {
 });
 ```
 
+
+
+### 4. Action timeout __ default no timeout | use: { actionTimeout: 10_000 }  | locator.click({ timeout: 10_000 })
+
+
+### 5. Navigation  timeout __ default no timeout | use: { navigationTimeout: 30_000 } | page.goto('/', { timeout: 30_000 })
+
+
+### Fixture  timeout __ later....
+
+### Notes
+* A good follow-up point: action and navigation timeouts have no limit by default, but they are still bounded by the test timeout. If the test times out first, the action fails with it.

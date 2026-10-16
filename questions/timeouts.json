@@ -1,0 +1,55 @@
+[
+  {
+    "type": "mcq",
+    "q": "What is the default behavior of Playwright's expect(locator).toBeVisible() if the element is not immediately visible?",
+    "options": [
+      "It throws an error instantly",
+      "It retries/polls until the element becomes visible or the timeout is reached",
+      "It waits exactly 30 seconds regardless of element state",
+      "It returns false without throwing"
+    ],
+    "answer": 1,
+    "explain": "Playwright's web-first assertions (expect(locator).toBeVisible(), toHaveText(), etc.) automatically retry/poll until the condition is met or the timeout (default 5s for assertions) expires. This is core to why Playwright avoids flaky tests compared to older frameworks needing explicit waits."
+  },
+
+  {
+    "type": "direct",
+    "q": "How do you disable all the major timeouts in one place?",
+    "answer": "Setting a timeout to 0 disables it:\n\n```ts\n// playwright.config.ts\nimport { defineConfig } from '@playwright/test';\n\nexport default defineConfig({\n  globalTimeout: 0,          // whole run, no limit\n  timeout: 0,                // each test, no limit\n  expect: {\n    timeout: 0,              // assertions wait forever\n  },\n  use: {\n    actionTimeout: 0,        // click, fill, etc.\n    navigationTimeout: 0,    // goto, waitForURL, etc.\n  },\n});\n```"
+  },
+
+  {
+    "type": "direct",
+    "q": "How do you disable the timeout for just one test?",
+    "answer": "Call `test.setTimeout(0)` inside that test:\n\n```ts\ntest('long data migration check', async ({ page }) => {\n  test.setTimeout(0);\n  // ...\n});\n```"
+  },
+
+  {
+    "type": "mcq",
+    "q": "What does test.slow() do?",
+    "options": [
+      "Makes the browser slow",
+      "Adds timeout automatically",
+      "Triples the test timeout",
+      "Runs tests sequentially"
+    ],
+    "answer": 2,
+    "explain": "Playwright increases the test timeout by 3×. test.slow() does not slow browser actions down. It is a quick way to triple the timeout, with no need to calculate a timeout value."
+  },
+
+  {
+    "type": "mcq",
+    "q": "Same config (`timeout: 30000`), but this time a `beforeAll` takes 25s and the test takes 20s. What happens?",
+    "options": [
+      "beforeAll fails with hook timeout",
+      "Worker crashes",
+      "Both pass",
+      "Test fails with test timeout exceeded"
+    ],
+    "answer": 2,
+    "explain": "Both pass. beforeAll has its own timeout (30s here), separate from the test's 30s. 25s fits in the hook's budget and 20s fits in the test's."
+  }
+
+
+
+]

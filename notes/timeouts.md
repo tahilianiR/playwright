@@ -1,5 +1,20 @@
 ## Timeouts
 
+
+```ts
+export default defineConfig({
+  globalTimeout: 4 * 60 * 60 * 1000, 
+  timeout: 30 * 60 * 1000, 
+
+  expect: { timeout: 20 * 1000 }, 
+  
+  use: {
+    actionTimeout: 20 * 1000, 
+    navigationTimeout: 60 * 1000,
+  },
+});
+````
+
 ### 1. Global timeout __ default no timeout | globalTimeout: 4 * 60 * 60 * 1000 
 
 

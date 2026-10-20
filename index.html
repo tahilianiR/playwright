@@ -456,7 +456,19 @@
     list.forEach((item, i) => {
       const card = document.createElement('div');
       card.className = 'q-card';
-      card.innerHTML = `<p class="q-title"><small>Q${i + 1}</small>${marked.parseInline(item.q || '')}</p>`;
+      // A question may contain a fenced code block: text before it is the title,
+      // the block is shown under it, and any text after the block goes below that.
+      const qText = item.q || '';
+      const fence = qText.match(/```[\s\S]*?```/);
+      if (fence) {
+        const before = qText.slice(0, fence.index).trim();
+        const after = qText.slice(fence.index + fence[0].length).trim();
+        card.innerHTML = `<p class="q-title"><small>Q${i + 1}</small>${marked.parseInline(before)}</p>` + marked.parse(fence[0]) +
+          (after ? `<p class="q-title">${marked.parseInline(after)}</p>` : '');
+        card.querySelectorAll('pre code').forEach(el => { hljs.highlightElement(el); vscodeColors(el); });
+      } else {
+        card.innerHTML = `<p class="q-title"><small>Q${i + 1}</small>${marked.parseInline(qText)}</p>`;
+      }
 
       if (item.type === 'mcq') {
         const result = document.createElement('div');

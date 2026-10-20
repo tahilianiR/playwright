@@ -18,7 +18,8 @@
    {
     "section": "Configurations",
     "topics": [
-      { "title": "Timeouts", "file": "timeouts.md" }
+      { "title": "Timeouts", "file": "timeouts.md" },
+         { "title": "parallel", "file": "parallel.md" }
     ]
   },
   {

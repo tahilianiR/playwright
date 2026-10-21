@@ -1,0 +1,14 @@
+[
+  {
+    "type": "mcq",
+    "q": "By default, how does Playwright Test execute test files?",
+    "options": [
+      "Sequentially in a single worker process",
+      "In parallel across multiple worker processes",
+      "Round-robin across different remote grids",
+      "Only when triggered via CI/CD pipelines"
+    ],
+    "answer": 1,
+    "explain": "Playwright Test runs test files in parallel by default to maximize execution speed, utilizing multiple worker processes based on available CPU cores."
+  }
+]

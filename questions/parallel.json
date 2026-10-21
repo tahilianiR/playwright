@@ -1,13 +1,3 @@
 [
-  {
-    "type": "direct",
-    "q": "In what order will these tests run?\n\n```ts\nimport { test, expect } from '@playwright/test';\n\ntest('3', async ({ page }) => {\n  console.log(\"test3 started\");\n});\n\ntest('2', async ({ page }) => {\n  console.log(\"test2 started\");\n});\n\ntest('1', async ({ page }) => {\n  console.log(\"test1 started\");\n});\n```",
-    "answer": "```bash\n  ✓  1 tests\\testing\\a.spec.ts:3:5 › 3 (870ms)\ntest3 started\n  ✓  2 tests\\testing\\a.spec.ts:9:5 › 2 (208ms)\ntest2 started\n  ✓  3 tests\\testing\\a.spec.ts:15:5 › 1 (205ms)\ntest1started\n```\n\nPlaywright Test runs tests from a single file in the order of declaration, unless you parallelize tests in a single file."
-  },
-
-  {
-    "type": "direct",
-    "q": "How to Sort test files alphabetically",
-    "answer": "Though not followed much ----- When you disable parallel test execution (ex: --workers =1), Playwright Test runs test files in alphabetical order. You can use some naming convention to control the test order, for example `001-user-signin-flow.spec.ts`, `002-create-new-document.spec.ts` and so on."
-  }
+ 
 ]

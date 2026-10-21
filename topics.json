@@ -18,13 +18,17 @@
    {
     "section": "Configurations",
     "topics": [
-      { "title": "Timeouts", "file": "timeouts.md" },
-         { "title": "parallel", "file": "parallel.md" }
+      { "title": "default playwright.config.ts", "file": "default-playwright.config.ts.md" },
+      { "title": "workers", "file": "workers.md" },
+       { "title": "parallel", "file": "parallel.md" },
+      { "title": "Timeouts", "file": "timeouts.md" }
+
     ]
   },
   {
     "section": "Running and debugging",
     "topics": [
+      { "title": "order", "file": "order.md" },
       { "title": "Debugging", "file": "debugging.md" },
       { "title": "Running in Jenkins", "file": "jenkins.md" }
     ]

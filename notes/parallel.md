@@ -48,12 +48,14 @@ test.describe.configure({ mode: 'serial' });
 ```
 
 ### Notes
-You can control the maximum number of parallel worker processes via command line or in the configuration file.
+
+You can also enable it for a single project only:
+
 ```ts
-npx playwright test --workers 4
+projects: [
+  { name: 'chromium', use: { browserName: 'chromium' }, fullyParallel: true },
+],
 ```
+can also pass from cli - npx playwright test --fully-parallel
 
-Playwright Test runs "tests" from a single file in the 'order of declaration', unless you parallelize tests in a single file.
-
-
-
+earlier it was like test.describe.parallel() / test.describe.serial() -- still in use but may be phased out in future

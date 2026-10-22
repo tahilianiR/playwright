@@ -22,3 +22,5 @@ You can control the maximum number of parallel worker processes via command line
 ```ts
 npx playwright test --workers 4
 ```
+
+

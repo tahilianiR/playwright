@@ -32,5 +32,26 @@
       { "title": "Debugging", "file": "debugging.md" },
       { "title": "Running in Jenkins", "file": "jenkins.md" }
     ]
+  },
+{
+    "section": "Programs",
+    "dir": "programs",
+    "topics": [
+      { "title": "Reverse a string", "file": "1.reverse-string.md" },
+      { "title": "Reverse a number", "file": "2.reverse-number.md" },
+      { "title": "Factorial", "file": "3.factorial.md" },
+      { "title": "Is armstrong number?", "file": "4.is-armstrong.md" },
+      { "title": "Anagram check", "file": "5.anagram.md" }
+
+    ]
+  },
+  {
+    "section": "JavaScript/TypeScript",
+    "dir": "javascript-typescript",
+    "topics": [
+      { "title": "basics", "file": "1.basics.md" }
+      
+    ]
   }
+  
 ]

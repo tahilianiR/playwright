@@ -539,7 +539,7 @@
   }
 
   async function loadTopic() {
-    const { id: hashId, view } = route();
+    const { id: hashId, view: routeView } = route();
     const id = hashId || slug(flat[0].file);
     const index = flat.findIndex(t => slug(t.file) === id);
     if (index === -1) {
@@ -550,7 +550,10 @@
     markActive();
     document.body.classList.remove('menu-open');
 
-    const tabs = tabsHtml(id, view);
+    // Programs have no interview questions: no tab, and #id/questions shows the notes.
+    const hasQuestions = topic.dir !== 'programs';
+    const view = hasQuestions ? routeView : 'notes';
+    const tabs = hasQuestions ? tabsHtml(id, view) : '';
 
     if (view === 'questions') {
       document.title = `${topic.title} questions – Playwright notes`;
@@ -565,7 +568,7 @@
         content.innerHTML = tabs + `<div class="notice"><h1>No questions yet</h1><p>Create <code>${qfile}</code> to add interview questions for this topic. See the README for the format.</p></div>`;
       }
     } else try {
-      const res = await fetch(`notes/${topic.file}`, { cache: 'no-store' });
+      const res = await fetch(`${topic.dir}/${topic.file}`, { cache: 'no-store' });
       if (!res.ok) throw new Error(res.status);
       const md = await res.text();
       content.innerHTML = tabs + marked.parse(md);
@@ -573,7 +576,7 @@
       buildSubtopics();
       document.title = `${topic.title} – Playwright notes`;
     } catch {
-      showNotice('Notes file missing', `<p>Couldn't load <code>notes/${topic.file}</code>. Create that file, or fix the file name in <code>topics.json</code>.</p>`);
+      showNotice('Notes file missing', `<p>Couldn't load <code>${topic.dir}/${topic.file}</code>. Create that file, or fix the file name in <code>topics.json</code>.</p>`);
       return;
     }
 
@@ -601,7 +604,7 @@
       showNotice('Topic list not readable', '<p>Check that <code>topics.json</code> exists in this folder and is valid JSON (watch for a missing comma or an extra one at the end).</p>');
       return;
     }
-    flat = sections.flatMap(s => s.topics);
+    flat = sections.flatMap(s => s.topics.map(t => ({ ...t, dir: s.dir || 'notes' })));
     renderNav();
     loadTopic();
   }

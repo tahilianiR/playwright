@@ -42,3 +42,9 @@ Each topic has an **Interview questions** tab. Questions for a topic live in `qu
 
 - `answer` for an MCQ is the position of the correct option, counting from 0.
 - Separate entries with commas, with no comma after the last one.
+
+## Programs
+
+Program pages live in `programs/` instead of `notes/`. The "Programs" section in `topics.json` has `"dir": "programs"`, which tells the page where to read its files. Any section can use `dir` this way; without it, files are read from `notes/`.
+
+To add a program: create `programs/<name>.md` and add `{ "title": "...", "file": "<name>.md" }` to the Programs section. File names must be unique across all folders, because the page address uses only the file name.

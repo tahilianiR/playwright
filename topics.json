@@ -42,7 +42,8 @@
       { "title": "sort number array", "file": "3.sort-number-array.md" },
       { "title": "Factorial", "file": "4.factorial.md" },
       { "title": "Is armstrong number?", "file": "5.is-armstrong.md" },
-      { "title": "Anagram check", "file": "6.anagram.md" }
+      { "title": "Anagram check", "file": "6.anagram.md" },
+         { "title": "Get first repeating character", "file": "7.get-first-repeating-character.md" }
 
     ]
   },

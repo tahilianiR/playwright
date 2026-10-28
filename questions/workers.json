@@ -34,5 +34,17 @@
     ],
     "answer": 1,
     "explain": "With fullyParallel=false, each file-run is one unit of work. 1 file x 3 projects gives 3 file-runs, so only 3 workers can be busy. The 4th worker is never used, even though --workers=4."
+  },
+  {
+    "type": "mcq",
+    "q": "With fullyParallel=true and --workers=3, how many workers will spin up ?\n\n```ts\nimport { test } from 'playwright/test';\n\ntest.describe('Testing', () => {\n  const projects = ['a', 'b', 'c'];\n  for (const project of projects) {\n    test('Test for project ' + project, async () => {\n      console.log('inside test for project:', project);\n    });\n  }\n});\n```",
+    "options": [
+      "All 3 tests run sequentially in one worker because they are defined inside a single for loop",
+      "Each loop iteration creates a separate test, so up to 3 workers run them in parallel",
+      "Only 1 test is registered because the loop reuses the same test body",
+      "The tests run in parallel only if each has a unique title and is moved outside test.describe"
+    ],
+    "answer": 1,
+    "explain": "Running 3 tests using 3 workers ...... A for loop only runs at collection time and calls test() once per iteration, so Playwright registers 3 independent tests ('... project a', '... b', '... c'). With fullyParallel=true each test is a separate unit of work, so with --workers=3 up to 3 workers spin up and run them in parallel. The loop itself does not group the tests together."
   }
 ]

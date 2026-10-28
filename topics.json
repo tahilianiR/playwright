@@ -39,9 +39,10 @@
     "topics": [
       { "title": "Reverse a string", "file": "1.reverse-string.md" },
       { "title": "Reverse a number", "file": "2.reverse-number.md" },
-      { "title": "Factorial", "file": "3.factorial.md" },
-      { "title": "Is armstrong number?", "file": "4.is-armstrong.md" },
-      { "title": "Anagram check", "file": "5.anagram.md" }
+      { "title": "sort number array", "file": "3.sort-number-array.md" },
+      { "title": "Factorial", "file": "4.factorial.md" },
+      { "title": "Is armstrong number?", "file": "5.is-armstrong.md" },
+      { "title": "Anagram check", "file": "6.anagram.md" }
 
     ]
   },

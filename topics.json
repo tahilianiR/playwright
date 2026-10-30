@@ -45,7 +45,8 @@
       { "title": "Anagram check", "file": "6.anagram.md" },
       { "title": "Get first repeating character", "file": "7.get-first-repeating-character.md" },
       { "title": "Sum of all numbers from a string", "file": "8.sum-of-all-numbers-from-a-string.md" },
-      { "title": "Even numbers first, odd numbers later", "file": "9.even-first-odd-later.md" }
+      { "title": "Even numbers first, odd numbers later", "file": "9.even-first-odd-later.md" },
+      { "title": "List all file names recursively", "file": "10.list-all-file-names-incSubFolders.md" }
 
     ]
   },

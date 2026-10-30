@@ -44,7 +44,8 @@
       { "title": "Is armstrong number?", "file": "5.is-armstrong.md" },
       { "title": "Anagram check", "file": "6.anagram.md" },
       { "title": "Get first repeating character", "file": "7.get-first-repeating-character.md" },
-      { "title": "Sum of all numbers from a string", "file": "8.sum-of-all-numbers-from-a-string.md" }
+      { "title": "Sum of all numbers from a string", "file": "8.sum-of-all-numbers-from-a-string.md" },
+      { "title": "Even numbers first, odd numbers later", "file": "9.even-first-odd-later.md" }
 
     ]
   },

@@ -1,31 +1,39 @@
-# Locators
+### locators
+https://playwright.dev/docs/locators
 
-Locators find elements on the page. They wait automatically and re-query the DOM each time they're used, so they don't go stale.
 
-## Preferred order
 
-1. `getByRole` – how users and screen readers see the page
-2. `getByLabel` – form fields
-3. `getByPlaceholder`, `getByText`
-4. `getByTestId` – when the app has `data-testid` attributes
-5. `locator('css or xpath')` – last resort
-
+### select option
+< select>   < option value="1">Jan</ option>   < option value="2">Feb</ option> </ select>
 ```ts
-await page.getByRole('button', { name: 'Sign in' }).click();
-await page.getByLabel('Email').fill('ramesh@example.com');
-await page.getByTestId('kol-grid').isVisible();
+// Single selection matching the value or label
+await page.getByLabel('Choose a color').selectOption('blue');
+
+// Single selection matching the label
+await page.getByLabel('Choose a color').selectOption({ label: 'Blue' });
+
+// Single selection matching the value
+await page.getByLabel('Choose a color').selectOption({ value: 'Blue' });
+
+// Single selection matching the zero-based index
+await page.getByLabel('Choose a color').selectOption({ index: 2 });
+
+
+// Multiple selected items
+await page.getByLabel('Choose multiple colors').selectOption(['red', 'green', 'blue']);
 ```
 
-## Narrowing down
+### My notes
+
+1. Below is one example wherein in the DOM was like half broken so I used getByText which worked fine  : 
+
+< span 
+_ngcontent-ng-c916014599="" class="text">
+"Clear Selections (11" 
+<!---->
+")" 
+< /span >
 
 ```ts
-const row = page.getByRole('row').filter({ hasText: 'Oncology' });
-await row.getByRole('button', { name: 'Edit' }).click();
-
-page.getByRole('listitem').nth(2);
-page.getByRole('listitem').first();
+      const clearSelection11: NamedLocator = { elementName: 'Clear Selections (11)', element: this.page.getByText("Clear Selections (11)") };
 ```
-
-## My notes
-
-- 

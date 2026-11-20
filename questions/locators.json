@@ -13,6 +13,18 @@
   },
   {
     "type": "mcq",
+    "q": "Which locator is recommended by Playwright for stable tests?",
+    "options": [
+      "XPath",
+      "CSS Selector",
+      "`getByRole()`",
+      "`querySelector()`"
+    ],
+    "answer": 2,
+    "explain": "Playwright recommends user-facing locators for better reliability. `getByRole()` identifies elements by accessibility role and visible text, making tests more maintainable and less flaky.\n\n```ts\nawait page.getByRole('button', { name: 'Login' }).click();\n```"
+  },
+  {
+    "type": "mcq",
     "q": "A locator can go stale like an ElementHandle.",
     "options": ["True", "False"],
     "answer": 1,
@@ -22,5 +34,173 @@
     "type": "direct",
     "q": "How do you click the Edit button inside the row that contains the text `Oncology`?",
     "answer": "Filter the rows, then chain a locator inside the match:\n\n```ts\nconst row = page.getByRole('row').filter({ hasText: 'Oncology' });\nawait row.getByRole('button', { name: 'Edit' }).click();\n```"
+  },
+  {
+    "type": "mcq",
+    "q": "What does `page.locator('text=Submit')` do differently compared to `page.getByText('Submit')`?",
+    "options": [
+      "They are functionally identical, just different syntax",
+      "`text=Submit` matches only exact text, `getByText` allows partial/regex matching by default",
+      "`locator('text=...')` is the legacy selector-engine string, while `getByText` is a built-in locator method and the recommended best practice",
+      "`getByText` only works with buttons, `text=` works with any element"
+    ],
+    "answer": 2,
+    "explain": "`text=Submit` is a legacy string-based selector engine. `getByText()` is one of Playwright's recommended built-in locator methods (like `getByRole`, `getByLabel`) and is considered best practice over raw selector strings. Note: both do substring matching by default unless an exact match is specified, so the real difference is the locator API vs the legacy selector engine.\n\n| Selector | Match type |\n|---|---|\n| `page.locator('text=Submit')` | Substring match |\n| `page.locator('text=\"Submit\"')` | Exact match |\n| `page.getByText('Submit')` | Substring match |\n| `page.getByText('Submit', { exact: true })` | Exact match |\n\nXPath, exact text:\n\n```ts\npage.locator('//button[text()=\"Submit\"]')\n```\n\nXPath, contains text:\n\n```ts\npage.locator('//button[contains(text(),\"Submit\")]')\n```"
+  },
+  {
+    "type": "mcq",
+    "q": "How do you count the number of matching elements?",
+    "options": [
+      "`locator.length()`",
+      "`locator.size()`",
+      "`locator.count()`",
+      "`locator.total()`"
+    ],
+    "answer": 2,
+    "explain": "`locator.count()` returns the number of elements matching the locator.\n\n```ts\nconst totalUsers = await page.locator('.user-row').count();\nconsole.log(totalUsers);\n```\n\nUseful for validating:\n\n- Table rows\n- Search results\n- List items"
+  },
+  {
+    "type": "mcq",
+    "q": "Which method is used to hover over an element?",
+    "options": [
+      "`mouseOver()`",
+      "`hover()`",
+      "`moveTo()`",
+      "`focus()`"
+    ],
+    "answer": 1,
+    "explain": "`hover()` moves the mouse over the element.\n\n```ts\nawait page.locator('.menu').hover();\n```\n\nCommon use cases:\n\n- Tooltip validation\n- Dropdown menus\n- Hidden controls"
+  },
+  {
+    "type": "mcq",
+    "q": "How can you capture the text of an element?",
+    "options": [
+      "`getText()`",
+      "`innerText()`",
+      "`fetchText()`",
+      "`readText()`"
+    ],
+    "answer": 1,
+    "explain": "`innerText()` returns the rendered text of the element.\n\n```ts\nconst text = await page.locator('.message').innerText();\nconsole.log(text);\n```\n\nAlternative:\n\n```ts\nconst text = await page.locator('.message').textContent();\n```"
+  },
+  {
+    "type": "mcq",
+    "q": "Which method is used to check whether an element exists?",
+    "options": [
+      "`locator.count()`",
+      "`locator.exist()`",
+      "`locator.present()`",
+      "`locator.checkExist()`"
+    ],
+    "answer": 0,
+    "explain": "`locator.count()` returns the number of matching elements, so a count above 0 means the element exists.\n\n```ts\nconst count = await page.locator('.user').count();\nexpect(count).toBeGreaterThan(0);\n```\n\nOr use an assertion:\n\n```ts\nawait expect(page.locator('#item')).toHaveCount(1);\n```"
+  },
+  {
+    "type": "mcq",
+    "q": "What happens if multiple elements match this locator?\n\n```ts\nawait page.locator('.btn').click();\n```",
+    "options": [
+      "Clicks the first element",
+      "Clicks all elements",
+      "Throws a strict mode violation error",
+      "Ignores duplicates"
+    ],
+    "answer": 2,
+    "explain": "Playwright uses strict mode by default, so an action on a locator that matches more than one element throws an error.\n\nFix:\n\n```ts\nawait page.locator('.btn').first().click();\n```\n\nor\n\n```ts\nawait page.locator('.btn').nth(0).click();\n```"
+  },
+  {
+    "type": "mcq",
+    "q": "What happens here?\n\n```ts\nawait page.locator('#login').click();\nawait page.close();\n```",
+    "options": [
+      "Test passes",
+      "Browser closes",
+      "Page closes",
+      "Context closes"
+    ],
+    "answer": 2,
+    "explain": "`page.close()` closes only the current tab/page.\n\nTo close the browser:\n\n```ts\nawait browser.close();\n```"
+  },
+  {
+    "type": "mcq",
+    "q": "What happens here?\n\n```ts\nconst locator = page.locator('.item');\nawait page.reload();\nawait locator.click();\n```",
+    "options": [
+      "Locator becomes stale",
+      "Error",
+      "Re-finds the element and works",
+      "Returns null"
+    ],
+    "answer": 2,
+    "explain": "A Locator is lazy. It does not store the actual element. After the reload, Playwright searches the DOM again.\n\nLocators survive page re-renders and reloads because they are re-evaluated on every action."
+  },
+  {
+    "type": "mcq",
+    "q": "What will fail?\n\n```ts\nconst el = await page.$('#btn');\nawait page.reload();\nawait el.click();\n```",
+    "options": [
+      "Always works",
+      "Clicks successfully",
+      "ElementHandle becomes stale",
+      "Browser restarts"
+    ],
+    "answer": 2,
+    "explain": "`page.$()` returns an ElementHandle, which points to a specific DOM element. After the reload the DOM changes, so the handle becomes stale.\n\nPrefer a Locator, which re-queries the DOM on every action."
+  },
+  {
+    "type": "mcq",
+    "q": "What is the output?\n\n```ts\nif (await page.locator('#btn').isVisible()) {\n  console.log('Visible');\n}\n```",
+    "options": [
+      "Waits forever",
+      "Auto-retries until visible",
+      "Immediate visibility check",
+      "Throws error"
+    ],
+    "answer": 2,
+    "explain": "`isVisible()` returns the current state immediately and does not wait.\n\nTo wait for the element, use the assertion:\n\n```ts\nawait expect(page.locator('#btn')).toBeVisible();\n```"
+  },
+  {
+    "type": "mcq",
+    "q": "How do you interact with an iframe?",
+    "options": [
+      "`page.frame()`",
+      "`frameLocator()`",
+      "`page.iframe()`",
+      "`switchFrame()`"
+    ],
+    "answer": 1,
+    "explain": "`frameLocator()` targets an iframe, and you then chain locators inside it.\n\n```ts\nawait page\n  .frameLocator('#frame')\n  .getByRole('button')\n  .click();\n```"
+  },
+  {
+    "type": "mcq",
+    "q": "What happens if a locator is found but hidden?\n\n```ts\nawait locator.click();\n```",
+    "options": [
+      "Clicks anyway",
+      "Auto waits",
+      "Immediate fail",
+      "Browser crash"
+    ],
+    "answer": 1,
+    "explain": "`click()` auto-waits for the element to be actionable, including visible, before clicking. If it does not become actionable within the timeout, the action fails with a timeout error."
+  },
+  {
+    "type": "mcq",
+    "q": "What will happen if only 3 matching elements exist?\n\n```ts\nconst locator = page.locator('.item');\nawait locator.nth(5).click();\n```",
+    "options": [
+      "Clicks the last element",
+      "Returns null",
+      "Throws a timeout error",
+      "Retries forever"
+    ],
+    "answer": 2,
+    "explain": "`nth(5)` points to a sixth element that does not exist. Playwright keeps retrying until the action timeout, then throws a timeout error. It does not retry forever."
+  },
+  {
+    "type": "mcq",
+    "q": "A test fails because a button is covered by a loading spinner. What should you do?",
+    "options": [
+      "Use `force: true`",
+      "Add `waitForTimeout(5000)`",
+      "Wait for the spinner to disappear before clicking",
+      "Retry the click multiple times"
+    ],
+    "answer": 2,
+    "explain": "Wait for the real condition, the spinner going away, instead of guessing. `force: true` skips the actionability checks and can hide real bugs, a fixed `waitForTimeout` is slow and flaky, and blind retries just repeat the problem.\n\n```ts\nawait expect(page.locator('.spinner')).toBeHidden();\nawait page.getByRole('button', { name: 'Submit' }).click();\n```"
   }
 ]
